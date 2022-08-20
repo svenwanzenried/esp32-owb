@@ -709,10 +709,15 @@ owb_status owb_search_next(const OneWireBus * bus, OneWireBus_SearchState * stat
 
 char * owb_string_from_rom_code(OneWireBus_ROMCode rom_code, char * buffer, size_t len)
 {
-    for (int i = sizeof(rom_code.bytes) - 1; i >= 0; i--)
+    for (int i = 0; i < sizeof(rom_code.bytes); i++)
     {
-        sprintf(buffer, "%02x", rom_code.bytes[i]);
+        sprintf(buffer, "%02X", rom_code.bytes[i]);
         buffer += 2;
+        if (i < sizeof(rom_code.bytes) - 1)
+        {
+            sprintf(buffer, "-");
+            buffer += 1;
+        }
     }
     return buffer;
 }
